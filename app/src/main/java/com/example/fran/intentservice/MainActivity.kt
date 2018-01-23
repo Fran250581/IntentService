@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
     fun calcularOperacion(view: View) {
         val n = java.lang.Double.parseDouble(entrada!!.text.toString())
         salida.append(n.toString() + "^2 = ")
-        val i = Intent(this, ServicioOperacion::class.java)
+        //val i = Intent(this, ServicioOperacion::class.java)
+        val i = Intent(this, IntentServiceOperacion::class.java)
         i.putExtra("numero", n)
         startService(i)
     }
