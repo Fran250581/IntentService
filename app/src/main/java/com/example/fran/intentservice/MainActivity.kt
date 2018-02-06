@@ -6,6 +6,9 @@ import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import android.widget.EditText
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         entrada = findViewById<View>(R.id.entrada) as EditText?
         salida = findViewById<View>(R.id.salida) as TextView
+
+        val filtro = IntentFilter(ReceptorOperacion().ACTION_RESP)
+        filtro.addCategory(Intent.CATEGORY_DEFAULT)
+        registerReceiver(ReceptorOperacion(), filtro)
     }
 
     fun calcularOperacion(view: View) {
@@ -30,4 +37,17 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var salida: TextView
     }
+
+    class ReceptorOperacion : BroadcastReceiver() {
+
+        var ACTION_RESP: String = "org.example.intentservice.intent.action.RESPUESTA_OPERACION"
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val res = intent!!.getDoubleExtra("resultado", 0.0)
+            salida.append(" " + res)
+        }
+    }
+
 }
+
+
